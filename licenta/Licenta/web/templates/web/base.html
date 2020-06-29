@@ -1,0 +1,103 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+	  <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+       
+    <title>{% block title %}Movies{% endblock title %}</title>
+
+     <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <link rel="stylesheet" type="text/css" href="{% static 'web/main.css' %}">
+
+	
+
+    <style type="text/css">
+        .thumbnail p, .thumbnail h4 {
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            }
+        .star-rating {
+            line-height:32px;
+            font-size:1.25em;
+            }
+
+.star-rating .fa-star{color: yellow;}
+        
+    </style>
+</head>
+<body>
+	<header class="site-header">
+      <nav class="navbar navbar-expand-md navbar-dark bg-steel fixed-top">
+        <div class="container">
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarToggle">
+            <div class="navbar-nav mr-auto">
+              <a class="nav-item nav-link" href="{% url 'mainpage-home' %}">Home</a>
+              <a class="nav-item nav-link" href="{% url 'index' %}">Movie</a>
+            </div>
+            <!-- Navbar Right Side -->
+            <div class="navbar-nav">
+            {% if user.is_authenticated %}
+                <a class="nav-item nav-link" href="{% url 'post-create' %}">New Post</a>
+                <a class="nav-item nav-link" href="{% url 'profile' %}">Profile</a>
+                <a class="nav-item nav-link" href="{% url 'logout' %}">Logout</a>
+            {% else %}
+              <a class="nav-item nav-link" href="{% url 'login' %}">Login</a>
+              <a class="nav-item nav-link" href="{% url 'register' %}">Register</a>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+</div>  
+    {% block body %}
+    {% endblock %}
+	<script type="text/javascript" src="{%static 'web/js/jquery.min.js' %}">
+	</script>
+
+	<script type="text/javascript" src="{%static 'web/js/bootstrap.min.js' %}">
+	</script>
+    <script type="text/javascript">
+    var $star_rating = $('.star-rating .fa');
+
+    var SetRatingStar = function() {
+        return $star_rating.each(function() {
+        if (parseInt($star_rating.siblings('input.rating-value').val()) >= parseInt($(this).data('rating'))) {
+            return $(this).removeClass('fa-star-o').addClass('fa-star');
+        } else {
+        return $(this).removeClass('fa-star').addClass('fa-star-o');
+        }
+        });
+        };
+
+    $star_rating.on('click', function() {
+    $star_rating.siblings('input.rating-value').val($(this).data('rating'));
+    return SetRatingStar();
+    });
+
+    SetRatingStar();
+    $(document).ready(function() {
+
+    });
+        
+</script>
+<script type="text/javascript">
+    function validateForm(){
+    var x = document.forms["ratingForm"]["rating"].value;
+    if(x=="0"){
+        alert("Invalid Input");
+        return false;
+    }
+    }
+</script>
+
+</body>
+</html>
